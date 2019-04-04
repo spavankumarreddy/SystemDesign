@@ -1,0 +1,42 @@
+Things to consider if you want to design Google Maps
+1) Images are usually heavy in size. How much memory would be requied to store so many maps?
+2) How many nodes would be required to maintain such huge data?
+3) What would be the traffic?
+4) How can it Scale?
+
+#1 How much memory?
+Earth is about 500 million square kilometers
+Lets say 70% of it is water and 20% of it is un important area. So remaining is 10% which is 50 million square Kilometers
+For a block of 10m X 10m image, lets take the image size as 1MB
+So, for a square kilo meter we would have around 10000 of above blocks, meaning 10,000MB
+So, for 50 Million square kilo meters, it would be around 50 X 10^6 X 10,000MB = 500GB X 10^6 = 500 peta bytes
+Assume a factor of 3.3 for zoom up and zoom down
+a. 500 PB/3 = ~175 PB
+b. 175 PB/3 = ~ 60 PB
+c. 60 PB/3  = ~ 20 PB
+So, overall the size would be around ~260 + ~500 = ~800 PB
+
+
+#2 How many nodes?
+Let's assume each node can handle around 15TB of data 
+If we consider 2 replicas, we can store ~5TB of data in each node
+So, for 800 PB --> 800 PB/5 TB = 8X10^5 TB/5 TB = 160000
+So, we need around 160k nodes to handle this data
+
+#3 How much traffic?
+For example, we have around 500M monthly google map users
+each user requires 30 minutes of navigation per month. So, we need 15000 million minutes = 15 billion minutes
+How many images required depends on the speed of the user. Let's say seed is 30 km/hour
+for 1 km, we need aournd 1 GB of images
+for 30 km in an hour, 30 GB
+Per minute, 30GB/60 = 30000 MB/60 = ~ 500 MB 
+for 15 billion minutes = 15000 million * 500 MB = 75 X 10^5 X 1 MB
+for a month there will be around 2.5 million seconds
+So, for a second --> 7.5 X 10^6 X 1 MB/2.5 X 10^6 = 3 MB
+So, traffic would be around 3MB/second 
+
+in other words, if we want number of requests/second if we assume there will be 30 requests per user in 30 minutes --> 30 X 500M /2.5M seconds = 6000 requests/second
+
+#4 6000 requests/second is manageable. 
+
+
